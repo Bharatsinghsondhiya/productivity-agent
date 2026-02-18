@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MI Refund Agent</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+  <!-- Minimal Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="agent-name">Oui Refund Agent</h1>
+      </div>
+      <div class="header-right">
+        <span class="env-tag">
+          <span class="env-label">Environment:</span>
+          <span id="envTag" class="env-value">Local</span>
+        </span>
+        <button id="settings" class="icon-btn" aria-label="Settings">⚙︎</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Chat Stream -->
+  <main class="stream">
+    <div id="log" class="log" aria-live="polite"></div>
+  </main>
+
+  <!-- Fixed Bottom Input Bar -->
+  <div class="inputbar">
+    <div class="inputbar-content">
+      <form id="form" class="composer">
+        <input id="input" type="text" placeholder="Ask the agent (e.g. list unread refund requests)" autocomplete="off"
+          aria-label="Message input" />
+        <button type="submit" class="send-btn" aria-label="Send message">
+          <span class="send-icon">➤</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+
+</html>

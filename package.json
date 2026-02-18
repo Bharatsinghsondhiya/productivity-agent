@@ -1,0 +1,27 @@
+{
+  "name": "oui-operations-agent",
+  "version": "1.0.0",
+  "description": "AI-powered email operations agent using Gmail API, LangChain, and Groq LLM",
+  "main": "web-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node -r dotenv/config web-server.js",
+    "web": "node -r dotenv/config web-server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "@langchain/core": "^1.0.2",
+    "@langchain/groq": "^1.0.0",
+    "@langchain/langgraph": "^1.0.1",
+    "cors": "^2.8.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.22.1",
+    "googleapis": "^171.4.0",
+    "langchain": "^1.0.2",
+    "marked": "^15.0.0",
+    "marked-terminal": "^7.3.0",
+    "zod": "^4.1.12"
+  }
+}
