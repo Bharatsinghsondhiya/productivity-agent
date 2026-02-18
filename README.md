@@ -132,6 +132,3 @@ const llm = new ChatGroq({ model: 'llama-3.3-70b-versatile' });
 - Multi-email summarization and inbox triage
 - Workflow automation (e.g., auto-log invoices to a sheet)
 
-## 📝 License
-
-MIT
