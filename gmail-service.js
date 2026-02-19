@@ -105,18 +105,29 @@ export async function getEmailContent(gmail, messageId) {
 }
 
 export async function sendEmail(gmail, { to, subject, body, cc, bcc, replyTo, html = false }) {
-    const messageParts = [
+    // Debug: log what we actually received
+    console.log('[sendEmail] to:', to);
+    console.log('[sendEmail] subject:', subject);
+    console.log('[sendEmail] body:', body);
+
+    // Build headers - filter out empty optional ones only
+    const headers = [
+        `MIME-Version: 1.0`,
         `To: ${to}`,
         subject ? `Subject: ${subject}` : '',
         cc ? `Cc: ${cc}` : '',
         bcc ? `Bcc: ${bcc}` : '',
         replyTo ? `Reply-To: ${replyTo}` : '',
         `Content-Type: ${html ? 'text/html' : 'text/plain'}; charset=utf-8`,
-        '',
-        body
+        `Content-Transfer-Encoding: quoted-printable`,
     ].filter(Boolean);
 
-    const encoded = Buffer.from(messageParts.join('\n'))
+    // RFC 2822: blank line MUST separate headers from body — never filter it out
+    const rawMessage = headers.join('\r\n') + '\r\n\r\n' + (body || '');
+
+    console.log('[sendEmail] raw message preview:\n', rawMessage.substring(0, 300));
+
+    const encoded = Buffer.from(rawMessage)
         .toString('base64')
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 

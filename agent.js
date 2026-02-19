@@ -66,8 +66,13 @@ const readEmailTool = tool(
 const sendEmailTool = tool(
   async ({ to, subject, body, cc, bcc, html }) => {
     try {
+      console.log('[sendEmailTool] called with body:', body ? body.substring(0, 100) : '!!! EMPTY !!!');
+      // Guard: body must be present
+      if (!body || body.trim().length === 0) {
+        return JSON.stringify({ error: 'Email body is empty. Please provide the message body text.' });
+      }
       const gmail = await getGmailClient();
-      const result = await sendEmail(gmail, { to, subject, body, cc, bcc, html });
+      const result = await sendEmail(gmail, { to, subject, body: body.trim(), cc, bcc, html });
       return JSON.stringify({ success: true, messageId: result.id, to, subject });
     } catch (error) {
       return JSON.stringify({ error: error.message });
@@ -75,11 +80,11 @@ const sendEmailTool = tool(
   },
   {
     name: 'send_email',
-    description: 'Send an email via Gmail. Supports plain text and HTML.',
+    description: 'Send an email via Gmail. The body parameter MUST contain the full written email message text — never leave it empty.',
     schema: z.object({
       to: z.string().describe('Recipient email address (or comma-separated list)'),
       subject: z.string().describe('Email subject line'),
-      body: z.string().describe('Email body content'),
+      body: z.string().min(1).describe('The FULL written body text of the email. Must be non-empty. Write the complete email content here.'),
       cc: z.string().optional().describe('CC addresses (comma-separated)'),
       bcc: z.string().optional().describe('BCC addresses (comma-separated)'),
       html: z.boolean().optional().describe('True for HTML email (default: false)')
@@ -184,8 +189,11 @@ FOLLOW-UP QUESTIONS:
 When user asks about a previously read email, answer using cached context WITHOUT re-fetching.
 
 SENDING EMAILS:
-- Gather only facts, then compose professional content yourself
-- Call send_email immediately once you have recipient + context`,
+- Compose the COMPLETE email body yourself — write every word of it
+- The 'body' field when calling send_email MUST contain the full written message text (greeting, content, sign-off)
+- NEVER call send_email with an empty body or a placeholder like '[message]'
+- Example body: "Dear Sumit,\n\nYou are invited to our presentation on 20 Feb at 3pm...\n\nBest regards,\nOui Team"
+- Gather only facts needed (recipient, date, topic), then write and send immediately`,
 });
 
 export async function handleQuery(query, resume) {
