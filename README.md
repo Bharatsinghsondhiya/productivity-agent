@@ -40,7 +40,7 @@ Gmail API
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/your-username/oui-operations-agent.git
+git clone https://github.com/Bharatsinghsondhiya/productivity-agent.git
 cd oui-operations-agent
 npm install
 ```

@@ -113,13 +113,14 @@ export async function sendEmail(gmail, { to, subject, body, cc, bcc, replyTo, ht
     // Build headers - filter out empty optional ones only
     const headers = [
         `MIME-Version: 1.0`,
+        `Date: ${new Date().toUTCString()}`,
         `To: ${to}`,
         subject ? `Subject: ${subject}` : '',
         cc ? `Cc: ${cc}` : '',
         bcc ? `Bcc: ${bcc}` : '',
         replyTo ? `Reply-To: ${replyTo}` : '',
         `Content-Type: ${html ? 'text/html' : 'text/plain'}; charset=utf-8`,
-        `Content-Transfer-Encoding: quoted-printable`,
+        `Content-Transfer-Encoding: 8bit`,
     ].filter(Boolean);
 
     // RFC 2822: blank line MUST separate headers from body — never filter it out
